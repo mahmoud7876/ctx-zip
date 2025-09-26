@@ -26,6 +26,8 @@ npm i ctx-zip
 pnpm add ctx-zip
 ```
 
+![ctx-zip](ctx-zip.png)
+
 ---
 
 ## Quickstart: generateText with prepareStep (last-N + compaction)
