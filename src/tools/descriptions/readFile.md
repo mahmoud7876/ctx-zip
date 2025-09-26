@@ -20,6 +20,8 @@ Examples:
   - key: `2024/09/01/run-1.txt`
 
 Notes:
+- Use only when the target file/blob was previously written in this conversation. It cannot access arbitrary files outside the conversation history.
+- Do not guess storage keys or filenames. Use only keys/references surfaced in conversation. If the data is not present, re-run the original producing tool to generate and persist it before reading.
 - If you previously wrote output to blob storage, always include `storage: blob:` (or your blob prefix) when reading; otherwise it will attempt a local file read and may fail with ENOENT.
 - Keys are resolved against the storage prefix/path. For blob root, the object path is just `key`. For blob prefixes, the stored path is `<prefix>/<key>`.
 - If your object path contains subfolders, include them in `key` (e.g., `logs/2024/09/01.txt`).

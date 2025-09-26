@@ -21,12 +21,12 @@ export function createReadFileTool(options: ReadFileToolOptions = {}) {
       key: z
         .string()
         .describe(
-          "Relative storage key/path to read (no scheme). For file:// it is under the base dir; for blob:// it is under the prefix."
+          "Relative storage key/path to read (no scheme). For file:// it is under the base dir; for blob:// it is under the prefix. Only use for files/blobs previously written in this conversation; cannot read arbitrary paths."
         ),
       storage: z
         .string()
         .describe(
-          "Storage URI. Use file:///abs/dir for local file storage, or blob://prefix for blob storage. This is required and has no default."
+          "Storage URI. Use file:///abs/dir for local file storage, or blob://prefix for blob storage. This is required and has no default. Must reference the same storage used when the file/blob was written during this conversation."
         ),
     }),
     async execute({ key, storage }) {
