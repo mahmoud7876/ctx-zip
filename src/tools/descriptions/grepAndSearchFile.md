@@ -19,6 +19,5 @@ If no "Written to ..." message exists, you cannot search the data. Instead, expl
  - If you only have such an ID and not a `key`, re-run the original producing tool to persist the data and then use the returned "Written to ..." message to obtain a valid `key`.
 
  Notes:
- - Storage is inferred from the application setup; do not pass storage in calls.
  - Keys are resolved against the configured storage's base path/prefix.
  - If your object path contains subfolders, include them in `key` (e.g., `logs/2024/09/01.txt`).

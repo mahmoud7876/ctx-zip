@@ -12,6 +12,5 @@ Inputs:
 - `key`: Relative object path (no scheme). Example: `out/2024-09-01.txt` or `2024/09/01/run-1.txt`.
 
 Notes:
-- Storage is inferred from the application setup; do not pass storage in calls.
 - Keys are resolved against the configured storage's base path/prefix.
 - If your object path contains subfolders, include them in `key` (e.g., `logs/2024/09/01.txt`).
