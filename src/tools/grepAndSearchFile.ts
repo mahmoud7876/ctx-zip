@@ -3,11 +3,14 @@ import { readFileSync } from "node:fs";
 import { z } from "zod";
 import { FileStorageAdapter } from "../storage/file";
 import { grepObject } from "../storage/grep";
+import { isKnownKey } from "../storage/knownKeys";
 import { createStorageAdapter } from "../storage/resolver";
 
 export interface GrepAndSearchFileToolOptions {
   description?: string;
   baseDir?: string;
+  /** Default storage used when input omitted. Accepts URI or adapter. */
+  storage?: unknown;
 }
 
 const defaultDescription = readFileSync(
@@ -26,11 +29,6 @@ export function createGrepAndSearchFileTool(
         .describe(
           "Relative storage key/path to search (no scheme). For file:// it is under the base dir; for blob:// it is under the prefix. Only use for files/blobs previously written in this conversation; cannot search arbitrary paths."
         ),
-      storage: z
-        .string()
-        .describe(
-          "Storage URI. Use file:///abs/dir for local file storage, or blob://prefix for blob storage. This is required and has no default. Must reference the same storage used when the file/blob was written during this conversation."
-        ),
       pattern: z
         .string()
         .describe("JavaScript regex pattern (without slashes)")
@@ -40,7 +38,7 @@ export function createGrepAndSearchFileTool(
         .optional()
         .describe("Regex flags, e.g., i, m, g (optional)"),
     }),
-    async execute({ key, storage, pattern, flags }) {
+    async execute({ key, pattern, flags }) {
       let regex: RegExp;
       try {
         regex = new RegExp(pattern, flags);
@@ -54,11 +52,23 @@ export function createGrepAndSearchFileTool(
       }
 
       try {
-        const adapter = storage
-          ? createStorageAdapter(storage)
+        const adapter = options.storage
+          ? createStorageAdapter(options.storage as any)
           : options.baseDir
           ? new FileStorageAdapter({ baseDir: options.baseDir })
           : createStorageAdapter();
+
+        const storageUri = adapter.toString();
+        if (!isKnownKey(storageUri, key)) {
+          return {
+            key,
+            pattern,
+            flags: flags ?? "",
+            content:
+              "Tool cannot be used: unknown key. Use a key previously surfaced via 'Written to ... Key: <key>' or 'Read from storage ... Key: <key>'. If none exists, re-run the producing tool to persist and get a key.",
+            storage: storageUri,
+          };
+        }
 
         const matches = await grepObject(adapter, key, regex);
         return {

@@ -3,11 +3,11 @@
     "account": "karthik@langtrace.ai",
     "fetchedAt": "2025-09-25T10:00:00.000Z",
     "total": 50,
-    "source": "fixtures/mock_emails.json"
+    "source": "https://api.mockgmail.com"
   },
   "emails": [
     {
-      "id": "msg_001",
+      "id": "msg_001_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Vercel AI SDK Team", "email": "ai@vercel.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "AI SDK: New features, examples, and roadmap",
@@ -19,7 +19,7 @@
       "tags": ["ai", "product", "vercel"]
     },
     {
-      "id": "msg_002",
+      "id": "msg_002_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Guillermo Rauch", "email": "rauchg@vercel.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Next.js Conf 2025 — keynotes, workshops, and launches",
@@ -31,7 +31,7 @@
       "tags": ["conference", "nextjs", "vercel"]
     },
     {
-      "id": "msg_003",
+      "id": "msg_003_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Karthik", "email": "karthik@ctx-zip.org" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Announcing ctx-zip: open source context compaction",
@@ -43,7 +43,7 @@
       "tags": ["open-source", "context", "compaction"]
     },
     {
-      "id": "msg_004",
+      "id": "msg_004_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Vercel", "email": "team@vercel.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Vercel AI SDK updates and new examples",
@@ -55,7 +55,7 @@
       "tags": ["ai", "product", "changelog"]
     },
     {
-      "id": "msg_005",
+      "id": "msg_005_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "GitHub", "email": "noreply@github.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "[repo] 3 issues assigned to you",
@@ -67,7 +67,7 @@
       "tags": ["dev", "github"]
     },
     {
-      "id": "msg_006",
+      "id": "msg_006_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Stripe", "email": "support@stripe.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Payout initiated",
@@ -79,7 +79,7 @@
       "tags": ["finance", "billing"]
     },
     {
-      "id": "msg_007",
+      "id": "msg_007_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Linear", "email": "updates@linear.app" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Linear Weekly: roadmap and performance",
@@ -91,7 +91,7 @@
       "tags": ["productivity", "product"]
     },
     {
-      "id": "msg_008",
+      "id": "msg_008_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "OpenAI", "email": "noreply@openai.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "API updates: new models and pricing",
@@ -103,7 +103,7 @@
       "tags": ["ai", "api"]
     },
     {
-      "id": "msg_009",
+      "id": "msg_009_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Slack", "email": "notifications@slack.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "You were mentioned in #product-design",
@@ -115,7 +115,7 @@
       "tags": ["communication", "slack"]
     },
     {
-      "id": "msg_010",
+      "id": "msg_010_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Jira", "email": "noreply@jira.atlassian.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Ticket PROJ-421 moved to In Progress",
@@ -127,7 +127,7 @@
       "tags": ["project", "jira"]
     },
     {
-      "id": "msg_011",
+      "id": "msg_011_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Acme Corp", "email": "updates@acme.example" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Quarterly review and next steps",
@@ -139,7 +139,7 @@
       "tags": ["partner", "planning"]
     },
     {
-      "id": "msg_012",
+      "id": "msg_012_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "AWS", "email": "no-reply@amazonaws.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Cost anomaly detected",
@@ -151,7 +151,7 @@
       "tags": ["cloud", "alerts"]
     },
     {
-      "id": "msg_013",
+      "id": "msg_013_akshdoiwnuuxjfo121ejxjasks",
       "from": { "name": "Vercel AI SDK Team", "email": "ai@vercel.com" },
       "to": [ { "name": "You", "email": "karthik@langtrace.ai" } ],
       "subject": "Deep dive: tool result persistence",

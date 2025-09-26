@@ -1,4 +1,4 @@
-import { generateText, ModelMessage, stepCountIs, tool } from "ai";
+import { generateText, stepCountIs, tool } from "ai";
 import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { z } from "zod";
@@ -50,17 +50,6 @@ async function main() {
     model: "openai/gpt-4.1-mini",
     tools,
     stopWhen: stepCountIs(4),
-    prepareStep: async (step) => {
-      try {
-        const messages: ModelMessage[] = Array.isArray(step.messages)
-          ? (step.messages as ModelMessage[])
-          : [];
-        step.messages = await compactMessages(messages, { storage });
-      } catch (error) {
-        console.warn("prepareStep compaction error:", error);
-      }
-      return step;
-    },
     system: "You are a helpful assistant that can help with emails.",
     messages: [
       {
@@ -74,12 +63,13 @@ async function main() {
   console.log(storage);
 
   const firstConversation = first.response.messages;
-  // console.log("\n=== First Conversation ===");
-  // console.log(JSON.stringify(firstConversation, null, 2));
+  console.log("\n=== First Conversation ===");
+  console.log(JSON.stringify(firstConversation, null, 2));
 
   // 2) Compact to persist the emails payload to Blob storage
   const compacted = await compactMessages(firstConversation, {
     storage,
+    boundary: "entire-conversation",
   });
   console.log("\n=== Compacted Conversation ===");
   console.log(JSON.stringify(compacted, null, 2));
@@ -89,17 +79,6 @@ async function main() {
     model: "openai/gpt-4.1-mini",
     tools,
     stopWhen: stepCountIs(4),
-    prepareStep: async (step) => {
-      try {
-        const messages: ModelMessage[] = Array.isArray(step.messages)
-          ? (step.messages as ModelMessage[])
-          : [];
-        step.messages = await compactMessages(messages, { storage });
-      } catch (error) {
-        console.warn("prepareStep compaction error:", error);
-      }
-      return step;
-    },
     system: "You are a helpful assistant that can help with emails.",
     messages: [
       ...compacted,
@@ -112,12 +91,13 @@ async function main() {
   });
 
   const secondConversation = followUp.response.messages;
-  // console.log("\n=== Follow-up Conversation ===");
-  // console.log(JSON.stringify(secondConversation, null, 2));
+  console.log("\n=== Follow-up Conversation ===");
+  console.log(JSON.stringify(secondConversation, null, 2));
 
   // 4) Compact to persist the emails payload to Blob storage
   const compactedFollowUp = await compactMessages(secondConversation, {
     storage,
+    boundary: "entire-conversation",
   });
   console.log("\n=== Compacted Follow-up Conversation ===");
   console.log(JSON.stringify(compactedFollowUp, null, 2));

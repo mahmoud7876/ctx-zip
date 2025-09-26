@@ -1,4 +1,4 @@
-import { generateText, ModelMessage, stepCountIs, tool } from "ai";
+import { generateText, stepCountIs, tool } from "ai";
 import "dotenv/config";
 import { readFileSync } from "node:fs";
 import { z } from "zod";
@@ -10,6 +10,7 @@ import {
 } from "../src";
 
 // Tools
+const storage = resolveFileUriFromBaseDir(process.cwd());
 const tools = {
   fetchEmails: tool({
     description: "Fetch recent emails for the current user (50 items)",
@@ -36,29 +37,16 @@ const tools = {
       };
     },
   }),
-  readFile: createReadFileTool(),
-  grepAndSearchFile: createGrepAndSearchFileTool(),
+  readFile: createReadFileTool({ storage }),
+  grepAndSearchFile: createGrepAndSearchFileTool({ storage }),
 };
 
 async function main() {
-  const storage = resolveFileUriFromBaseDir(process.cwd());
-
   // 1) Ask the model to summarize recent emails (will call fetchEmails)
   const first = await generateText({
     model: "openai/gpt-4.1-mini",
     tools,
     stopWhen: stepCountIs(4),
-    prepareStep: async (step) => {
-      try {
-        const messages: ModelMessage[] = Array.isArray(step.messages)
-          ? (step.messages as ModelMessage[])
-          : [];
-        step.messages = await compactMessages(messages, { storage });
-      } catch (error) {
-        console.warn("prepareStep compaction error:", error);
-      }
-      return step;
-    },
     system: "You are a helpful assistant that can help with emails.",
     messages: [
       {
@@ -68,16 +56,16 @@ async function main() {
     ],
   });
 
-  // console.log("\n=== First Answer (Summary) ===");
-  // console.log(first.text);
+  console.log("\n=== First Answer (Summary) ===");
+  console.log(first.text);
 
   const firstConversation = first.response.messages;
-  // console.log("\n=== First Conversation ===");
-  // console.log(JSON.stringify(firstConversation, null, 2));
+  console.log("\n=== First Conversation ===");
+  console.log(JSON.stringify(firstConversation, null, 2));
 
-  // 2) Compact to persist the emails payload to storage under a predictable key
   const compacted = await compactMessages(firstConversation, {
     storage,
+    boundary: "entire-conversation",
   });
   console.log("\n=== Compacted Conversation ===");
   console.log(JSON.stringify(compacted, null, 2));
@@ -87,38 +75,26 @@ async function main() {
     model: "openai/gpt-4.1-mini",
     tools,
     stopWhen: stepCountIs(4),
-    prepareStep: async (step) => {
-      try {
-        const messages: ModelMessage[] = Array.isArray(step.messages)
-          ? (step.messages as ModelMessage[])
-          : [];
-        step.messages = await compactMessages(messages, { storage });
-      } catch (error) {
-        console.warn("prepareStep compaction error:", error);
-      }
-      return step;
-    },
     system: "You are a helpful assistant that can help with emails.",
     messages: [
       ...compacted,
       {
         role: "user",
-        content:
-          "Great! Is there any mention of Zest in any of the recent emails? If so, search for the website of the product.",
+        content: "Great! Are there any important emails?",
       },
     ],
   });
 
-  // console.log("\n=== Follow-up Answer ===");
-  // console.log(followUp.text);
+  console.log("\n=== Follow-up Answer ===");
+  console.log(followUp.text);
 
   const secondConversation = followUp.response.messages;
-  // console.log("\n=== Follow-up Conversation ===");
-  // console.log(JSON.stringify(secondConversation, null, 2));
+  console.log("\n=== Follow-up Conversation ===");
+  console.log(JSON.stringify(secondConversation, null, 2));
 
-  // 4) Compact to persist the emails payload to storage under a predictable key
   const compactedFollowUp = await compactMessages(secondConversation, {
     storage,
+    boundary: "entire-conversation",
   });
   console.log("\n=== Compacted Follow-up Conversation ===");
   console.log(JSON.stringify(compactedFollowUp, null, 2));

@@ -1,28 +1,17 @@
-Read the full contents of a single file from storage. This is not a search tool.
+Read the full contents of a single file from storage. This is not a search tool. IMPORTANT: This tool can ONLY be used when data was previously written to storage and announced with a "Written to ..." message in this conversation.
 
-- Provide `key` as the file's relative path (no scheme). The key is the file path, not any of the file's contents. Do NOT include `file://` or `blob://` in the key.
-- Provide `storage` as a URI. If you are reading blob-backed objects, you MUST pass a blob URI (e.g., `blob:` or `blob:/my-prefix`). If `storage` is omitted, the tool defaults to reading from the local filesystem.
+CRITICAL: Do not use this tool unless you can find a "Written to ..." message:
+- Look for messages that say "Written to file: <path>. Key: <key>. Use the read/search tools to inspect its contents."
+- Look for messages that say "Written to storage: <path>. Key: <key>. Use the read/search tools to inspect its contents."
+- If you cannot find such a message, DO NOT use this tool. The data has not been persisted to readable storage.
+- Never use email IDs, message IDs, or any other identifiers as keys - these are not storage keys.
 
-Storage URI formats:
-- file: `file:///absolute/base/dir`
-- blob (root): `blob:` or `blob://` or `blob:///`
-- blob (with prefix): `blob:/my-prefix` or `blob:///my-prefix`
+If no "Written to ..." message exists, you cannot read the data. Instead, explain that the data needs to be persisted first before it can be read.
 
-Examples:
-- Local file:
-  - storage: `file:///Users/me/project`
-  - key: `out/2024-09-01.txt`
-- Blob root:
-  - storage: `blob:` (or `blob://`)
-  - key: `c8c54006-628b-4ea5-854b-5099e980167f.txt`
-- Blob with prefix:
-  - storage: `blob:/agent-outputs`
-  - key: `2024/09/01/run-1.txt`
+Inputs:
+- `key`: Relative object path (no scheme). Example: `out/2024-09-01.txt` or `2024/09/01/run-1.txt`.
 
 Notes:
-- Use only when the target file/blob was previously written in this conversation. It cannot access arbitrary files outside the conversation history.
-- Do not guess storage keys or filenames. Use only keys/references surfaced in conversation. If the data is not present, re-run the original producing tool to generate and persist it before reading.
-- If you previously wrote output to blob storage, always include `storage: blob:` (or your blob prefix) when reading; otherwise it will attempt a local file read and may fail with ENOENT.
-- Keys are resolved against the storage prefix/path. For blob root, the object path is just `key`. For blob prefixes, the stored path is `<prefix>/<key>`.
+- Storage is inferred from the application setup; do not pass storage in calls.
+- Keys are resolved against the configured storage's base path/prefix.
 - If your object path contains subfolders, include them in `key` (e.g., `logs/2024/09/01.txt`).
-

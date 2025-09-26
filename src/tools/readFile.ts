@@ -2,11 +2,14 @@ import { tool } from "ai";
 import { readFileSync } from "node:fs";
 import { z } from "zod";
 import { FileStorageAdapter } from "../storage/file";
+import { isKnownKey } from "../storage/knownKeys";
 import { createStorageAdapter } from "../storage/resolver";
 
 export interface ReadFileToolOptions {
   description?: string;
   baseDir?: string;
+  /** Default storage used when input omitted. Accepts URI or adapter. */
+  storage?: unknown;
 }
 
 const defaultDescription = readFileSync(
@@ -23,19 +26,24 @@ export function createReadFileTool(options: ReadFileToolOptions = {}) {
         .describe(
           "Relative storage key/path to read (no scheme). For file:// it is under the base dir; for blob:// it is under the prefix. Only use for files/blobs previously written in this conversation; cannot read arbitrary paths."
         ),
-      storage: z
-        .string()
-        .describe(
-          "Storage URI. Use file:///abs/dir for local file storage, or blob://prefix for blob storage. This is required and has no default. Must reference the same storage used when the file/blob was written during this conversation."
-        ),
     }),
-    async execute({ key, storage }) {
+    async execute({ key }) {
       try {
-        const adapter = storage
-          ? createStorageAdapter(storage)
+        const adapter = options.storage
+          ? createStorageAdapter(options.storage as any)
           : options.baseDir
           ? new FileStorageAdapter({ baseDir: options.baseDir })
           : createStorageAdapter();
+
+        const storageUri = adapter.toString();
+        if (!isKnownKey(storageUri, key)) {
+          return {
+            key,
+            content:
+              "Tool cannot be used: unknown key. Use a key previously surfaced via 'Written to ... Key: <key>' or 'Read from storage ... Key: <key>'. If none exists, re-run the producing tool to persist and get a key.",
+            storage: storageUri,
+          };
+        }
 
         if (!adapter.readText) {
           return {

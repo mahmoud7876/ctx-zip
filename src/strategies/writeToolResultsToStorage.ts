@@ -1,5 +1,6 @@
 import type { ModelMessage } from "ai";
 import { randomUUID } from "node:crypto";
+import { registerKnownKey } from "../storage/knownKeys";
 import type { StorageAdapter } from "../storage/types";
 
 function formatStoragePathForDisplay(storageUri: string, key: string): string {
@@ -226,12 +227,18 @@ export async function writeToolResultsToStorageStrategy(
         }
         const display =
           storage && key
-            ? `Read from storage: ${formatStoragePathForDisplay(storage, key)}`
+            ? `Read from storage: ${formatStoragePathForDisplay(
+                storage,
+                key
+              )}. Key: ${key}`
             : `Read from file: ${fileName ?? "<unknown>"}`;
         part.output = {
           type: "text",
           value: display,
         };
+        if (storage && key) {
+          registerKnownKey(storage, key);
+        }
         continue;
       }
 
@@ -269,8 +276,9 @@ export async function writeToolResultsToStorageStrategy(
         value: `${writtenPrefix}: ${formatStoragePathForDisplay(
           adapterUri,
           key
-        )}. Use the read/search tools to inspect its contents.`,
+        )}. Key: ${key}. Use the read/search tools to inspect its contents.`,
       };
+      registerKnownKey(adapterUri, key);
     }
   }
 
