@@ -46,8 +46,6 @@ import { generateText, stepCountIs } from "ai";
 import { openai } from "@ai-sdk/openai";
 import {
   compactMessages,
-  // Optional: use a URI string instead of constructing an adapter
-  createStorageAdapter,
   createReadFileTool,
   createGrepAndSearchFileTool,
 } from "ctx-zip";
@@ -55,25 +53,25 @@ import {
 // Choose a storage backend (see Storage section below)
 // - Local filesystem (default if omitted): file:///absolute/path
 // - Vercel Blob: blob: (requires BLOB_READ_WRITE_TOKEN)
-const storageUri = process.env.USE_BLOB ? "blob:" : `file://${process.cwd()}`;
-
-const N = 12; // Keep only the most recent 12 messages plus the system message
+const storageUri = `file://${process.cwd()}`;
 
 const result = await generateText({
   model: openai("gpt-4.1-mini"),
   tools: {
-    // Provide built-in tools so the model can read/search persisted outputs
+    // Built-in tools so the model can read/search persisted outputs
     readFile: createReadFileTool(),
     grepAndSearchFile: createGrepAndSearchFileTool(),
+
     // ... your other tools (zod-typed) ...
   },
   stopWhen: stepCountIs(6),
   prompt: "Use tools to research, summarize, and cite sources.",
   prepareStep: async ({ messages }) => {
-    // Compact tool results while keeping the latest N messages intact
+    // 1. Writes the tool results of the first 20 messages to a local file
+    // 2. Replaces those messages with a reference to that file
     const compacted = await compactMessages(messages, {
-      storage: storageUri, // or createStorageAdapter(storageUri)
-      boundary: { type: "first-n-messages", count: N },
+      storage: storageUri,
+      boundary: { type: "first-n-messages", count: 20 },
     });
 
     return { messages: compacted };
