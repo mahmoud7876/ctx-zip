@@ -241,5 +241,5 @@ From `ctx-zip`:
 
 ---
 
-Built with <3 by the team behind [Langtrace](https://langtrace.ai) and [Zest](https://heyzest.ai).
+Built with ❤️ by the team behind [Langtrace](https://langtrace.ai) and [Zest](https://heyzest.ai).
 
