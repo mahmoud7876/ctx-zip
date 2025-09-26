@@ -1,0 +1,44 @@
+{
+  "name": "ctx-zip",
+  "version": "0.0.1",
+  "description": "A tool for context compression of tool call results",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "example:local": "tsx examples/local_file.ts",
+    "example:blob": "tsx examples/vercel_blob.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "test": "tsx tests/*.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": ["ai", "tools", "context", "compression"],
+  "author": "Karthik Kalyanaraman",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@vercel/blob": "^0.24.1",
+    "zod": "^4.1.11"
+  },
+  "peerDependencies": {
+    "ai": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.5.2",
+    "@ai-sdk/openai": "^2.0.35",
+    "ai": "^5.0.52",
+    "dotenv": "^17.2.2",
+    "tsx": "^4.20.5",
+    "typescript": "^5.9.2"
+  }
+}
