@@ -1,6 +1,6 @@
 {
   "name": "ctx-zip",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A tool for context compression of tool call results",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,7 +12,12 @@
     "test": "tsx tests/*.ts",
     "prepublishOnly": "npm run build"
   },
-  "keywords": ["ai", "tools", "context", "compression"],
+  "keywords": [
+    "ai",
+    "tools",
+    "context",
+    "compression"
+  ],
   "author": "Karthik Kalyanaraman",
   "license": "MIT",
   "type": "module",
